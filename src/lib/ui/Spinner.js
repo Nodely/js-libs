@@ -1,5 +1,5 @@
 /**
- * Created by Ivan Soloviev <ivan.soloviev@gmail.com>
+ * Created by Ivan Soloviev <info@nodely.ru>
  * Date: 02/14/2018
  *
  * Copyright @ Nodely, 2018
