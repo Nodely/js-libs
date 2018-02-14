@@ -1,6 +1,6 @@
 {
   "name": "nodely-libs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Nodely Platform Libraries",
   "main": "build/index.js",
   "scripts": {
