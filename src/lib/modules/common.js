@@ -24,129 +24,6 @@ export const BASKET_ITEM_REMOVE = "common/BASKET_ITEM_REMOVE";
 export const ORDER_PLACED = "common/ORDER_PLACED";
 export const ORDER_READY = "common/ORDER_READY";
 
-const popularMakes = [
-    {
-        id: 16,
-        name: "BMW"
-    },
-    {
-        id: 184,
-        name: "KIA"
-    },
-    {
-        id: 72,
-        name: "MAZDA"
-    },
-    {
-        id: 74,
-        name: "MERCEDES-BENZ"
-    },
-    {
-        id: 5,
-        name: "AUDI"
-    },
-    {
-        id: 111,
-        name: "TOYOTA"
-    },
-    {
-        id: 120,
-        name: "VOLVO"
-    },
-    {
-        id: 121,
-        name: "VW"
-    },
-    {
-        id: 77,
-        name: "MITSUBISHI"
-    },
-    {
-        id: 138,
-        name: "CHEVROLET"
-    },
-    {
-        id: 21,
-        name: "CITROËN"
-    },
-    {
-        id: 2887,
-        name: "CHERY"
-    },
-    {
-        id: 20,
-        name: "CHRYSLER"
-    },
-    {
-        id: 80,
-        name: "NISSAN"
-    },
-    {
-        id: 35,
-        name: "FIAT"
-    },
-    {
-        id: 106,
-        name: "SKODA"
-    },
-    {
-        id: 107,
-        name: "SUBARU"
-    },
-    {
-        id: 84,
-        name: "OPEL"
-    },
-    {
-        id: 36,
-        name: "FORD"
-    },
-    {
-        id: 45,
-        name: "HONDA"
-    },
-    {
-        id: 1526,
-        name: "INFINITI"
-    },
-    {
-        id: 819,
-        name: "CADILLAC"
-    },
-    {
-        id: 109,
-        name: "SUZUKI"
-    },
-    {
-        id: 183,
-        name: "HYUNDAI"
-    },
-    {
-        id: 93,
-        name: "RENAULT"
-    },
-    {
-        id: 104,
-        name: "SEAT"
-    },
-    {
-        id: 88,
-        name: "PEUGEOT"
-    },
-    {
-        id: 55,
-        name: "IVECO"
-    },
-    {
-        id: 1820,
-        name: "LAND ROVER"
-    },
-    {
-        id: 882,
-        name: "JEEP"
-    }
-];
-
 export const emptyBasket = {
     amount: 0,
     items: [],
@@ -164,7 +41,6 @@ const initialState = {
     page: {},
     settings: {},
     isBusy: false,
-    popularMakes,
     orders: [],
     activateAccount: false,
     signError: false,

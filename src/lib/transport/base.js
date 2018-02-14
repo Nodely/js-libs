@@ -1,7 +1,9 @@
 import 'whatwg-fetch'
 import ClientOAuth2 from 'client-oauth2'
+import Cookies from 'js-cookie'
 
-export const API_URL = '/rest-api/public';
+const host = Cookies.get('NODELY_API_HOST') || "";
+export const API_URL = host + '/rest-api/public';
 
 export const oAuthClient = new ClientOAuth2({
     clientId: window.location.host,

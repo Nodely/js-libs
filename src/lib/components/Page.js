@@ -1,19 +1,17 @@
-import React, {Component} from 'react'
+/**
+ * Created by Ivan Soloviev <info@nodely.ru>
+ * Date: 01/21/2018
+ *
+ * Copyright @ Nodely, 2018
+ */
+
+import React from 'react'
+import PropTypes from 'prop-types'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
+import {getPage} from '../modules/common'
 
-import {
-    getPage
-} from '../modules/common'
-
-import {
-    loadTemplate
-} from '../templates'
-
-const PageIndexView = loadTemplate('layouts', 'index');
-const PageInternalView = loadTemplate('layouts', 'internal');
-
-class IndexCmp extends Component {
+class Cmp extends React.PureComponent {
 
     componentDidMount() {
         this.props.getPage(this.props.match.path)
@@ -21,38 +19,21 @@ class IndexCmp extends Component {
 
     componentWillReceiveProps(props) {
         if (props.match.path !== this.props.match.path) {
-            console.log("Index: ", props.match);
-            this.props.getPage(this.props.match.path)
+            this.props.getPage(props.match.path)
         }
     }
 
     render() {
-        return <PageIndexView loadTemplate={loadTemplate.bind(this)}
-                              page={this.props.page}
-                              {...this.props}/>
+        let element = React.createElement(this.props.component, this.props);
+        if (this.props.match.path === "/")
+            return element;
+        return this.props.page.id ? element : null
     }
 }
 
-class InternalCmp extends React.PureComponent {
-
-    componentDidMount() {
-        this.props.getPage(this.props.match.path)
-    }
-
-    componentWillReceiveProps(props) {
-        if (props.match.path !== this.props.match.path) {
-            console.log("Internal: ", props.match);
-            this.props.getPage(this.props.match.path)
-        }
-    }
-
-    render() {
-        return this.props.page.id ? <PageInternalView loadTemplate={loadTemplate.bind(this)}
-                                                      page={this.props.page}
-                                                      crumbs={this.props.crumbs}
-                                                      links={this.props.links}/> : null
-    }
-}
+Cmp.propTypes = {
+    component: PropTypes.element.isRequired
+};
 
 const mapStateToProps = state => ({
     page: state.common.page,
@@ -64,12 +45,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
     getPage
 }, dispatch);
 
-export const Index = connect(
+export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(IndexCmp);
-
-export const Internal = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(InternalCmp);
+)(Cmp);

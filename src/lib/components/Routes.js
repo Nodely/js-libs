@@ -1,24 +1,11 @@
 import React, {Component} from 'react'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
+import {Route, Switch, withRouter} from 'react-router-dom'
+import PropTypes from 'prop-types'
+import {getRoutes} from '../modules/common'
+import Page from './Page'
 
-import {Route, Switch} from 'react-router-dom'
-
-import {
-    getRoutes
-} from '../modules/common'
-
-import {
-    Index as PageIndex,
-    Internal as PageInternal
-} from './Page'
-
-import PartsCatalogView from './PartsCatalog'
-import LoginView from './Login'
-import ProtectedView from './Protected'
-import OrdersView from './Orders'
-
-import NotFound from './NotFound'
 
 class Cmp extends Component {
 
@@ -27,18 +14,19 @@ class Cmp extends Component {
     }
 
     render() {
-        let {routes} = this.props;
+        let {routes, views} = this.props;
         return (
             <Switch>
                 {routes.map((route, i) => {
-                    let Comp;
                     switch (route.component) {
                         case "index":
-                            Comp = <Route key={i} exact path={route.path} component={PageIndex}/>;
-                            break;
+                            return <Route key={i} exact path={route.path}
+                                          render={props => {
+                                              return <Page component={views.index} {...props}/>
+                                          }}/>;
                         case "notfound":
-                            Comp = <Route key={i} component={NotFound}/>;
-                            break;
+                            return <Route key={i} component={views.notFound}/>;
+                            /*
                         case "parts-catalog":
                             Comp = <Route key={i} path={route.path} component={PartsCatalogView}/>;
                             break;
@@ -50,16 +38,22 @@ class Cmp extends Component {
                             break;
                         case "orders":
                             Comp = <Route key={i} path={route.path} component={OrdersView}/>;
-                            break;
+                            break;*/
                         default:
-                            Comp = <Route key={i} exact path={route.path} component={PageInternal}/>;
+                            return <Route key={i} exact path={route.path}
+                                          render={props => {
+                                              return <Page component={views.internal} {...props}/>
+                                          }}/>;
                     }
-                    return Comp;
                 })}
             </Switch>
         )
     }
 }
+
+Cmp.propTypes = {
+    views: PropTypes.element.isRequired
+};
 
 const mapStateToProps = state => ({
     routes: state.common.routes
@@ -69,7 +63,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
     getRoutes
 }, dispatch);
 
-export default connect(
+export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps
-)(Cmp)
+)(Cmp))

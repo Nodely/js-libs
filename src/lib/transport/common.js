@@ -17,7 +17,8 @@ export const getPage = (path) => {
 };
 
 export const getRoutes = (path) => {
-    return get(`/navigation/routes/${encodeURIComponent(path)}`)
+    path  = path ? encodeURIComponent(path) : "";
+    return get(`/navigation/routes/${path}`)
 };
 
 export const loadSettings = () => {

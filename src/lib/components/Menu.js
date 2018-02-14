@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import {loadTemplate} from '../templates'
 import {withRouter} from 'react-router-dom'
 
 import {
@@ -11,23 +10,25 @@ import {
 
 class Cmp extends Component {
 
-    static propTypes = {
-        code: PropTypes.string.isRequired
-    };
-
     componentDidMount() {
         this.props.getMenuItems(this.props.code);
     }
 
     render() {
         let {code, items, settings, location, loggedUser} = this.props;
-        const MenuView = loadTemplate('menu', code);
-        return <MenuView items={items[code] || []}
+        const MenuView = this.props.component;
+        return <MenuView code={code}
+                         items={items[code] || []}
                          location={location}
                          settings={settings}
                          loggedUser={loggedUser}/>
     }
 }
+
+Cmp.propTypes = {
+    code: PropTypes.string.isRequired,
+    component: PropTypes.element.isRequired
+};
 
 const mapStateToProps = state => ({
     items: state.common.menuItems,

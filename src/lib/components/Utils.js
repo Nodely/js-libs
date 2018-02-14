@@ -1,29 +1,26 @@
-import React, {Component} from 'react'
-import PropTypes from 'prop-types'
+import React from 'react'
+import ReactHtmlParser from 'react-html-parser'
 
-export class Spinner extends Component {
 
-    static propTypes = {
-        isBusy: PropTypes.bool.isRequired
-    };
+/**
+ * Parse content and replace given macros
+ * @param content HTML based content
+ * @param wrappers List of React components for further replacement
+ */
+export const createMarkup = (content, wrappers) => {
+    if (content.indexOf('{Form:') > -1) {
+        let parts = content.split(/{Form:(.+)}/gi);
+        parts[1] = '<form code="' + parts[1] + '"/>';
 
-    render() {
-        return this.props.isBusy ? <div>
-            <div className={"sk-spinner sk-fading-circle " + (this.props.skSize === "xs" ? "sk-xs" : "")}>
-                <div className="sk-circle1 sk-circle"/>
-                <div className="sk-circle2 sk-circle"/>
-                <div className="sk-circle3 sk-circle"/>
-                <div className="sk-circle4 sk-circle"/>
-                <div className="sk-circle5 sk-circle"/>
-                <div className="sk-circle6 sk-circle"/>
-                <div className="sk-circle7 sk-circle"/>
-                <div className="sk-circle8 sk-circle"/>
-                <div className="sk-circle9 sk-circle"/>
-                <div className="sk-circle10 sk-circle"/>
-                <div className="sk-circle11 sk-circle"/>
-                <div className="sk-circle12 sk-circle"/>
-            </div>
-        </div> : null
+        return ReactHtmlParser(parts.join(''), {
+            transform: (n, i) => {
+                if (n.name === "form") {
+                    let props = {...n.attribs};
+                    props.key = props.code;
+                    return wrappers.Form ? React.createElement(wrappers.Form, props) : null;
+                }
+            }
+        })
     }
-
-}
+    return ReactHtmlParser(content)
+};

@@ -44,7 +44,7 @@ class Cmp extends React.Component {
                     </BS.FormGroup>
                 );
             });
-            if (form.withCaptcha && !skipCaptcha) {
+            if (form.withCaptcha && !skipCaptcha && settings.captcha_site_key) {
                 fields.push(
                     <BS.Col sm={colControl} smOffset={colLabel} key={"re-captcha"}>
                         <ReCAPTCHA

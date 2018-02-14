@@ -6,7 +6,6 @@
  */
 
 import React, {Component} from "react";
-import {loadTemplate} from "../templates";
 import {bindActionCreators} from "redux";
 import {connect} from 'react-redux'
 import {doLogin, setSession, getLoggedInfo, setUserToSession, clearSession} from "../modules/auth";
