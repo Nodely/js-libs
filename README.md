@@ -1,8 +1,8 @@
 # Nodely Platform Libraries
 
-[![Build Status](https://travis-ci.org/Nodely/nodely-libs.svg?branch=master)](https://travis-ci.org/Nodely/nodely-libs)
-[![Dependencies](https://img.shields.io/david/Nodely/nodely-libs.svg)]()
-[![Dev Dependencies](https://img.shields.io/david/dev/Nodely/nodely-libs.svg)]()
+[![Build Status](https://travis-ci.org/Nodely/js-libs.svg?branch=master)](https://travis-ci.org/Nodely/nodely-libs)
+[![Dependencies](https://img.shields.io/david/Nodely/js-libs.svg)]()
+[![Dev Dependencies](https://img.shields.io/david/dev/Nodely/js-libs.svg)]()
 
 ## Getting Started
 
