@@ -1,6 +1,7 @@
 {
   "name": "nodely-libs",
-  "version": "1.0.1",
+  "version": "1.0.2",
+  "proxy": "http://localhost:3060/",
   "description": "Nodely Platform Libraries",
   "main": "build/index.js",
   "scripts": {
@@ -13,7 +14,7 @@
     "type": "git",
     "url": "git+https://github.com/Nodely/js-libs.git"
   },
-  "author": "Ivan Soloviev <info@nodely.ru>",
+  "author": "Ivan Solovyev <support@nodely.me>",
   "bugs": {
     "url": "https://github.com/Nodely/js-libs/issues"
   },

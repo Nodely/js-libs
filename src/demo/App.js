@@ -1,10 +1,10 @@
 import React from 'react';
-import Example from '../lib';
+import Nodely, {Components} from '../lib';
 
 const App = () => (
-  <div>
-    <Example />
-  </div>
+  <Nodely>
+    <Components.Routes/>
+  </Nodely>
 );
 
 export default App;
