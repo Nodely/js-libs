@@ -15,6 +15,7 @@ export const ROUTES_READY = "common/ROUTES_READY";
 export const SETTINGS_READY = "common/SETTINGS_READY";
 export const ORDERS_READY = "common/ORDERS_READY";
 export const REQUEST_IN_PROGRESS = "common/REQUEST_IN_PROGRESS";
+export const REQUEST_ERRORED = "common/REQUEST_ERRORED";
 export const SIGN_ACTIVATE = "common/SIGN_ACTIVATE";
 export const SIGN_ERROR = "common/SIGN_ERROR";
 export const ACTIVATE_READY = "common/ACTIVATE_READY";
@@ -233,6 +234,22 @@ export const getRoutes = (path) => {
                 type: ROUTES_READY,
                 items
             })
+        }).catch(e => {
+            if(e.statusCode === 403) {
+                e.response.json().then(res => {
+                    if (res.code === 1000) {
+                        window.location = "/manager/first-time-wizard"
+                    }
+                    dispatch({
+                        type: REQUEST_ERRORED,
+                        message: res.message
+                    });
+                });
+                return
+            }
+            dispatch({
+                type: REQUEST_ERRORED
+            });
         })
     }
 };

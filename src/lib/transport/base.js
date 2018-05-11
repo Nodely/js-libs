@@ -1,19 +1,10 @@
 import 'whatwg-fetch'
-import ClientOAuth2 from 'client-oauth2'
-import Cookies from 'js-cookie'
 
-const host = Cookies.get('NODELY_API_HOST') || "";
-export const API_URL = host + '/rest-api/public';
+export const API_URL = '/rest-api/public';
 
-export const oAuthClient = new ClientOAuth2({
-    clientId: window.location.host,
-    accessTokenUri: API_URL + '/token',
-    authorizationUri: API_URL + '/authorize',
-    redirectUri: window.location.protocol + '//' + window.location.host + '/login/callback',
-    scopes: ['all']
-});
+let CSRF = null;
 
-const process = (resource, method, params, isForm) => {
+const handleRequest = (resource, method, params, isForm) => {
     let formData = null;
     if (isForm) {
         let arr = [];
@@ -29,8 +20,12 @@ const process = (resource, method, params, isForm) => {
     }
 
     let headers = {};
-    if (!isForm)
-        headers["Content-Type"] = "application/json";
+    if (!isForm) {
+        headers = {
+            "Content-Type": "application/json",
+            "X-CSRF-Token": CSRF
+        };
+    }
 
     // get auth header
     let s = window.localStorage.getItem("NODELY_SESSION");
@@ -42,38 +37,48 @@ const process = (resource, method, params, isForm) => {
         method: method,
         headers,
         credentials: 'include',
-        mode: 'cors',
-        body: params ? (isForm ? formData : JSON.stringify(params)) : null
+        body: params ? formData || JSON.stringify(params) : null
     }).then(res => {
         if (res.status >= 200 && res.status < 300) {
-            return res.json();
+            return res;
         } else if (res.status === 401 && resource !== "/loggedInfo") {
             window.localStorage.removeItem("NODELY_SESSION");
             window.location = "/login?to=" + window.location.pathname;
         } else {
-            throw res;
+            let err = new Error(res.statusText);
+            err.statusCode = res.status;
+            err.response = res;
+            throw err;
         }
+    }).then(res => {
+        return res.json();
+    });
+};
+
+export const getToken = () => {
+    handleRequest('/check').then(res => {
+        CSRF = res;
     });
 };
 
 export const get = (resource) => {
-    return process(resource, 'GET');
+    return handleRequest(resource, 'GET');
 };
 
 export const post = (resource, params) => {
-    return process(resource, 'POST', params);
+    return handleRequest(resource, 'POST', params);
 };
 
 export const postForm = (resource, params) => {
-    return process(resource, 'POST', params, true);
+    return handleRequest(resource, 'POST', params, true);
 };
 
 export const put = (resource, params) => {
-    return process(resource, 'PUT', params);
+    return handleRequest(resource, 'PUT', params);
 };
 
 export const del = (resource) => {
-    return process(resource, 'DELETE');
+    return handleRequest(resource, 'DELETE');
 };
 
 export const getRaw = (uri) => {
