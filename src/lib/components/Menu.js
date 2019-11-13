@@ -27,7 +27,7 @@ class Cmp extends Component {
 
 Cmp.propTypes = {
     code: PropTypes.string.isRequired,
-    component: PropTypes.element.isRequired
+    component: PropTypes.elementType.isRequired
 };
 
 const mapStateToProps = state => ({

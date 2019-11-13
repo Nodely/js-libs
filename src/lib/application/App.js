@@ -8,7 +8,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {Provider} from 'react-redux'
-import {ConnectedRouter} from 'react-router-redux'
+import { ConnectedRouter } from 'connected-react-router'
 import ReduxToastr from 'react-redux-toastr'
 import store, {history} from './store'
 

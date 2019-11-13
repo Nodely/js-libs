@@ -34,10 +34,11 @@ class Cmp extends React.Component {
         if (form) {
             form.props.forEach((f, idx) => {
                 fields.push(
-                    <BS.FormGroup key={idx}>
-                        <BS.Col componentClass={BS.ControlLabel} sm={colLabel}>
+                    <BS.FormGroup as={BS.Row} key={idx}>
+                        <BS.Form.Label column sm={colLabel}>
                             {f.title}{f.required &&
-                        <span className="text-danger">*</span>}</BS.Col>
+                            <span className="text-danger">*</span>}
+                        </BS.Form.Label>
                         <BS.Col sm={colControl}>
                             {this.parseFields(f)}
                         </BS.Col>

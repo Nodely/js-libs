@@ -52,7 +52,7 @@ class Cmp extends Component {
 }
 
 Cmp.propTypes = {
-    views: PropTypes.element.isRequired
+    views: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({

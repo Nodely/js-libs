@@ -32,7 +32,7 @@ class Cmp extends React.PureComponent {
 }
 
 Cmp.propTypes = {
-    component: PropTypes.element.isRequired
+    component: PropTypes.any.isRequired
 };
 
 const mapStateToProps = state => ({
