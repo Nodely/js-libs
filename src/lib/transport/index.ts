@@ -5,9 +5,9 @@
  * Copyright @ Nodely, 2018
  */
 
-import Common from './common'
-import Forms from './forms'
-import Parts from './parts'
+import * as Common from './common'
+import * as Forms from './forms'
+import * as Parts from './parts'
 
 
 export {

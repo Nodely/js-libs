@@ -1,19 +1,21 @@
 /**
- * Created by Ivan Soloviev <info@nodely.ru>
- * Date: 02/13/2018
+ * Created by Ivan Soloviev <support@nodely.me>
+ * Date: 12/01/2019
  *
- * Copyright @ Nodely, 2018
+ * Copyright @ Nodely, 2019
  */
 
-import { createStore, applyMiddleware, compose } from 'redux'
+import { createStore, applyMiddleware, compose , Store, StoreEnhancer } from 'redux'
 import { routerMiddleware } from 'connected-react-router'
 import thunk from 'redux-thunk'
 import { createBrowserHistory } from 'history'
-import createReducer from '../modules'
+import { IRootState, createRootReducer } from '../modules'
 
 export const history = createBrowserHistory();
 
-const initialState = {};
+
+const initialState = window.INITIAL_REDUX_STATE;
+
 const enhancers = [];
 const middleware = [
     thunk,
@@ -21,20 +23,20 @@ const middleware = [
 ];
 
 if (process.env.NODE_ENV === 'development') {
-    const devToolsExtension = window.devToolsExtension;
+    const devToolsExtension = window['devToolsExtension'];
 
     if (typeof devToolsExtension === 'function') {
         enhancers.push(devToolsExtension())
     }
 }
 
-const composedEnhancers = compose(
+const composedEnhancers: StoreEnhancer<IRootState> = compose<any>(
     applyMiddleware(...middleware),
     ...enhancers
 );
 
-const store = createStore(
-    createReducer(history),
+const store: Store<IRootState> = createStore<IRootState>(
+    createRootReducer(history),
     initialState,
     composedEnhancers
 );

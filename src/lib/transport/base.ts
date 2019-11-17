@@ -2,9 +2,9 @@ import 'whatwg-fetch'
 
 export const API_URL = '/rest-api/public';
 
-let CSRF = null;
+let CSRF: string | null = null;
 
-const handleRequest = (resource, method, params, isForm) => {
+const handleRequest = (resource: string, method?: string, params?: any, isForm?: boolean) => {
     let formData = null;
     if (isForm) {
         let arr = [];
@@ -19,7 +19,7 @@ const handleRequest = (resource, method, params, isForm) => {
 
     }
 
-    let headers = {};
+    let headers: any = {};
     if (!isForm) {
         headers = {
             "Content-Type": "application/json",
@@ -28,31 +28,33 @@ const handleRequest = (resource, method, params, isForm) => {
     }
 
     // get auth header
-    let s = window.localStorage.getItem("NODELY_SESSION");
+    let s: any = window.localStorage.getItem("NODELY_SESSION");
     if (s) {
         s = JSON.parse(s);
         headers['Authorization'] = s.token_type + ' ' + s.access_token
     }
     return fetch(API_URL + resource, {
-        method: method,
-        headers,
-        credentials: 'include',
-        body: params ? formData || JSON.stringify(params) : null
-    }).then(res => {
+      method: method,
+      headers,
+      credentials: "include",
+      body: params ? formData || JSON.stringify(params) : null
+    })
+      .then(res => {
         if (res.status >= 200 && res.status < 300) {
-            return res;
+          return res;
         } else if (res.status === 401 && resource !== "/loggedInfo") {
-            window.localStorage.removeItem("NODELY_SESSION");
-            window.location = "/login?to=" + window.location.pathname;
+          window.localStorage.removeItem("NODELY_SESSION");
+          window.location.href = "/login?to=" + window.location.pathname;
         } else {
-            let err = new Error(res.statusText);
-            err.statusCode = res.status;
-            err.response = res;
-            throw err;
+          let err: any = new Error(res.statusText);
+          err.statusCode = res.status;
+          err.response = res;
+          throw err;
         }
-    }).then(res => {
+      })
+      .then((res: any) => {
         return res.json();
-    });
+      });
 };
 
 export const getToken = () => {
@@ -61,27 +63,27 @@ export const getToken = () => {
     });
 };
 
-export const get = (resource) => {
+export const get = (resource: string) => {
     return handleRequest(resource, 'GET');
 };
 
-export const post = (resource, params) => {
+export const post = (resource: string, params: any) => {
     return handleRequest(resource, 'POST', params);
 };
 
-export const postForm = (resource, params) => {
+export const postForm = (resource: string, params: any) => {
     return handleRequest(resource, 'POST', params, true);
 };
 
-export const put = (resource, params) => {
+export const put = (resource: string, params?: any) => {
     return handleRequest(resource, 'PUT', params);
 };
 
-export const del = (resource) => {
+export const del = (resource: string) => {
     return handleRequest(resource, 'DELETE');
 };
 
-export const getRaw = (uri) => {
+export const getRaw = (uri: string) => {
     return fetch(uri, {
         method: "GET",
         credentials: 'include',

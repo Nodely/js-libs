@@ -4,38 +4,33 @@ import {
     FormControl,
     InputGroup,
 } from 'react-bootstrap'
-import PropTypes from 'prop-types'
 
-class SearchInput extends Component {
+class SearchInput extends Component<SearchInputProps, SearchInputState> {
 
-    constructor(props) {
+    static defaultProps = {throttle: 1000};
+
+    _throttleTimeout: any;
+    
+    constructor(props: any) {
         super(props);
         this.state = {
             searchTerm: props.value || ""
         }
     }
 
-    static propTypes = {
-        id: PropTypes.string.isRequired,
-        placeholder: PropTypes.string,
-        onChange: PropTypes.func,
-        throttle: PropTypes.number,
-        filterKeys: PropTypes.array
-    };
-
     render() {
         let {id, placeholder} = this.props;
         return (
             <FormGroup controlId={id}>
-                <InputGroup bsSize="small">
-                    <InputGroup.Addon><span className="fa fa-search"/></InputGroup.Addon>
+                <InputGroup size="sm">
+                    <InputGroup.Prepend><span className="fa fa-search"/></InputGroup.Prepend>
                     <FormControl placeholder={placeholder} onChange={this.updateSearch.bind(this)} value={this.state.searchTerm}/>
                 </InputGroup>
             </FormGroup>
         )
     }
 
-    updateSearch(e) {
+    updateSearch(e: any) {
         let searchTerm = e.target.value.toLowerCase();
         this.setState({
             searchTerm
@@ -51,18 +46,18 @@ class SearchInput extends Component {
         });
     }
 
-    filter(keys) {
-        return SearchInput.filter(this.state.searchTerm, keys || this.props.filterKeys);
+    filter(keys: any) {
+        return filter(this.state.searchTerm, keys || this.props.filterKeys);
     }
 }
 
-SearchInput.filter = (term, keys) => {
+const filter = (term: string, keys: any) => {
 
-    const _getValuesForKey = function (key, _item) {
+    const _getValuesForKey = function (key: string, _item: any) {
         let keys = key.split('.');
         let results = [_item];
         keys.forEach(function (_key) {
-            let tmp = [];
+            let tmp: any = [];
             results.forEach(result => {
                 if (result) {
                     if (result instanceof Array) {
@@ -85,7 +80,7 @@ SearchInput.filter = (term, keys) => {
         });
     };
 
-    return (item) => {
+    return (item: any) => {
         if (term === '') {
             return true;
         }
@@ -125,6 +120,16 @@ SearchInput.filter = (term, keys) => {
     };
 };
 
-SearchInput.defaultProps = {throttle: 1000};
+type SearchInputState = {
+    searchTerm: string;
+}
+
+export type SearchInputProps = {
+    id: string;
+    placeholder?: string;
+    filterKeys?: any;
+    onChange: Function;
+    throttle: number;
+}
 
 export default SearchInput

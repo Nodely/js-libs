@@ -7,6 +7,6 @@
 
 import {get} from "./base"
 
-export const loadForm = code => {
+export const loadForm = (code: string) => {
     return get(`/form/${code}`)
 };

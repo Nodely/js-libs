@@ -259,12 +259,6 @@ module.exports = {
   ],
   // CRL: added externals block for library
   externals: {
-   'react': 'react',
-   'prop-types': 'prop-types',
-   'react-dom': 'react-dom',
-   'react-router': 'react-router',
-   'react-router-dom': 'react-router-dom',
-   'react-bootstrap': 'react-bootstrap'
   },
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.

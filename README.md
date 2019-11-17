@@ -8,8 +8,7 @@
 
 Install libraries using command:
 
-`npm install nodely-libs --save`
-
+`yarn add nodely-libs`
 
 
 ## Table of content

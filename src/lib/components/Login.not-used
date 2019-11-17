@@ -9,16 +9,20 @@ import React, {Component} from "react";
 import {bindActionCreators} from "redux";
 import {connect} from 'react-redux'
 import {doLogin, setSession, getLoggedInfo, setUserToSession, clearSession} from "../modules/auth";
-import {oAuthClient} from "../transport/base"
+//import {oAuthClient} from "../transport/base"
 import {Route, Switch} from "react-router-dom";
 import Cookie from 'js-cookie'
+
+function loadTemplate(section: string, template: string) {
+    return <></>
+}
 
 const LoginView = loadTemplate('login', 'login');
 const ResetPasswordView = loadTemplate('login', 'login');
 const SignupView = loadTemplate('login', 'signup');
 const ActivateView = loadTemplate('login', 'activate');
 
-class Cmp extends Component {
+class Cmp extends Component<Props> {
 
     componentDidMount() {
         if (!this.props.settings.authorization) {
@@ -45,7 +49,7 @@ class Cmp extends Component {
             <Route path={`${match.url}/activate/:code`} component={ActivateView}/>
             <Route path={`${match.url}/out`} render={() => {
                 clearSession();
-                window.location = "/";
+                window.location.href = "/";
                 return null
             }}/>
             <Route path={`${match.url}/callback`} render={() => {
@@ -62,6 +66,19 @@ class Cmp extends Component {
             }}/>
         </Switch>
     }
+}
+
+interface Props {
+    settings: any;
+    error: any;
+    isLoggedIn: boolean;
+
+    history?: any;
+    match?: any;
+
+    doLogin: Function;
+    setUserToSession: Function;
+    setSession: Function;
 }
 
 
