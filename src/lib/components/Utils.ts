@@ -1,5 +1,5 @@
 import React from "react";
-import ReactHtmlParser from "react-html-parser";
+import parse from 'html-react-parser';
 
 /**
  * Parse content and replace given macros
@@ -22,7 +22,7 @@ export const createMarkup = (content: string, wrappers?: any) => {
         }
       }
     }
-    return ReactHtmlParser(parts.join(""), opts);
+    return parse(parts.join(""), opts);
   }
-  return ReactHtmlParser(content);
+  return parse(content);
 };

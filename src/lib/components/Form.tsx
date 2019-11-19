@@ -27,7 +27,7 @@ type ReduxType = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
   Props;
 
-interface Props {
+type Props = {
   code: any;
   onChange: Function;
   onRef: Function;
@@ -41,17 +41,16 @@ interface Props {
   form: any;
 }
 
-class Cmp extends Component<ReduxType> {
+type FormState = {
+  captcha: string | null
+}
+
+class Cmp extends Component<ReduxType, FormState> {
   static defaultProps = {
     fieldsOnly: false,
     colLabel: 2,
     colControl: 10,
-    skipCaptcha: false,
-    values: null
-  };
-
-  state = {
-    captcha: null
+    skipCaptcha: false
   };
 
   componentDidMount() {
